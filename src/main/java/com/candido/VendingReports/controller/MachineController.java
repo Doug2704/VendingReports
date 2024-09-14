@@ -18,15 +18,18 @@ public class MachineController {
     private final MachineService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Machine> findById(@PathVariable Long id){
-        Machine machine = service.findById(id);
-        return new ResponseEntity<>(machine, HttpStatus.FOUND);
+    public ResponseEntity<Machine> findById(@PathVariable Long id) {
+        Optional<Machine> machine = service.findById(id);
+        if (machine.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(machine.get(), HttpStatus.FOUND);
     }
 
     @GetMapping
     public ResponseEntity<List<Machine>> findAll() {
         List<Machine> machines = service.findAll();
-        return new ResponseEntity<>(machines, HttpStatus.FOUND);
+        return new ResponseEntity<>(machines, HttpStatus.OK);
     }
 
     @PostMapping

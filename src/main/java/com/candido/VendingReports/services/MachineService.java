@@ -14,12 +14,8 @@ public class MachineService {
 
     private final MachineRepository repository;
 
-    public Machine findById(Long id) {
-        Optional<Machine> machine = repository.findById(id);
-        if (machine.isEmpty()) {
-            return new Machine();
-        }
-        return machine.get();
+    public Optional<Machine> findById(Long id) {
+        return repository.findById(id);
     }
 
     public List<Machine> findAll() {

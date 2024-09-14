@@ -15,10 +15,9 @@ public class ProductService {
 
     private final ProductRepository repository;
 
-    public Product findById(Long id) {
-        Optional<Product> product = repository.findById(id);
+    public Optional<Product> findById(Long id) {
+        return repository.findById(id);
 
-        return product.get();
     }
 
     public List<Product> findAll() {

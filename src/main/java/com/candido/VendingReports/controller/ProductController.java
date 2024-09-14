@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "api/v1/products")
@@ -19,8 +20,11 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id) {
-        Product product = service.findById(id);
-        return new ResponseEntity<>(product, HttpStatus.FOUND);
+        Optional<Product> product = service.findById(id);
+        if (product.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(product.get(), HttpStatus.FOUND);
     }
 
     @GetMapping
