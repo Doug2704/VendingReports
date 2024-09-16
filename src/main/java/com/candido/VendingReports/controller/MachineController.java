@@ -37,4 +37,24 @@ public class MachineController {
         Machine m = service.create(machine);
         return new ResponseEntity<>(m, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Machine> update(@RequestBody Machine machine, @PathVariable Long id) {
+        Optional<Machine> findById = service.findById(id);
+        Machine m;
+        if (findById.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        m = findById.get();
+        m.setCode(machine.getCode());
+        m.setClient(machine.getClient());
+        m.setProducts(machine.getProducts());
+        m.setTotal(m.getTotal());
+        m.setAudit03(m.getAudit03());
+        m.setAudit08(m.getAudit08());
+        m.setAudit09(m.getAudit09());
+        Machine update = service.update(m);
+        return new ResponseEntity<>(update, HttpStatus.OK);
+    }
+
 }

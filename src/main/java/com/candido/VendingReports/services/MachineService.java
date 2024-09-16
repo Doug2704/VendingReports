@@ -25,4 +25,8 @@ public class MachineService {
     public Machine create(Machine machine) {
         return repository.save(machine);
     }
+
+    public Machine update(Machine machine) {
+        return repository.save(machine);
+    }
 }
