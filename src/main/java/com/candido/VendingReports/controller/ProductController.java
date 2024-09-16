@@ -16,11 +16,11 @@ import java.util.Optional;
 @RequestMapping(value = "api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
-    private final ProductService service;
+    private final ProductService productService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id) {
-        Optional<Product> product = service.findById(id);
+        Optional<Product> product = productService.findById(id);
         if (product.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -29,14 +29,17 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> findAll() {
-        List<Product> products = service.findAll();
+        List<Product> products = productService.findAll();
         return new ResponseEntity<>(products, HttpStatus.FOUND);
     }
 
-    @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
-
-        Product p = service.create(product);
-        return new ResponseEntity<>(p, HttpStatus.CREATED);
+    @PostMapping("/{machineId}")
+    public ResponseEntity<?> create(@RequestBody Product product, @PathVariable Long machineId) {
+        try {
+            Product p = productService.create(product, machineId);
+            return new ResponseEntity<>(p, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 }

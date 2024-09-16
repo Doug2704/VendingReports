@@ -1,6 +1,7 @@
 package com.candido.VendingReports.controller;
 
 import com.candido.VendingReports.entities.Machine;
+import com.candido.VendingReports.entities.Product;
 import com.candido.VendingReports.services.MachineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,15 @@ public class MachineController {
     public ResponseEntity<List<Machine>> findAll() {
         List<Machine> machines = service.findAll();
         return new ResponseEntity<>(machines, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/products")
+    public ResponseEntity<?> findAllProducts(@PathVariable Long id) {
+        try {
+            return new ResponseEntity<>(service.products(id), HttpStatus.FOUND);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping

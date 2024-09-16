@@ -1,6 +1,7 @@
 package com.candido.VendingReports.services;
 
 import com.candido.VendingReports.entities.Machine;
+import com.candido.VendingReports.entities.Product;
 import com.candido.VendingReports.repositories.MachineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,11 @@ public class MachineService {
 
     public List<Machine> findAll() {
         return repository.findAll();
+    }
+
+    public List<Product> products(Long id) {
+        Machine m = repository.findById(id).orElseThrow(() -> new RuntimeException("Máquina não encontrada"));
+        return m.getProducts();
     }
 
     public Machine create(Machine machine) {
