@@ -18,10 +18,10 @@ public class MachineController {
     private final MachineService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Machine> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Machine> machine = service.findById(id);
         if (machine.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Máquina não encontrada", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(machine.get(), HttpStatus.FOUND);
     }
@@ -39,22 +39,23 @@ public class MachineController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Machine> update(@RequestBody Machine machine, @PathVariable Long id) {
-        Optional<Machine> findById = service.findById(id);
-        Machine m;
-        if (findById.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> update(@RequestBody Machine machine, @PathVariable Long id) {
+        try {
+            Machine update = service.update(machine, id);
+            return new ResponseEntity<>(update, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-        m = findById.get();
-        m.setCode(machine.getCode());
-        m.setClient(machine.getClient());
-        m.setProducts(machine.getProducts());
-        m.setTotal(m.getTotal());
-        m.setAudit03(m.getAudit03());
-        m.setAudit08(m.getAudit08());
-        m.setAudit09(m.getAudit09());
-        Machine update = service.update(m);
-        return new ResponseEntity<>(update, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        Optional<Machine> findById = service.findById(id);
+        if (findById.isEmpty()) {
+            return new ResponseEntity<>("Máquina não encontrada", HttpStatus.NOT_FOUND);
+        }
+        service.delete(id);
+        return new ResponseEntity("Máquina deletada", HttpStatus.OK);
+
+    }
 }
