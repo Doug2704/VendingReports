@@ -5,6 +5,7 @@ import com.candido.VendingReports.entities.Product;
 import com.candido.VendingReports.repositories.MachineRepository;
 import com.candido.VendingReports.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,5 +40,10 @@ public class ProductService {
         p.setName(product.getName());
         p.setQuantity(product.getQuantity());
         return productRepository.save(p);
+    }
+
+    public void delete(Long id) {
+        Product p = productRepository.findById(id).get();
+        productRepository.delete(p);
     }
 }

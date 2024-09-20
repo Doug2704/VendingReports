@@ -52,4 +52,15 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+        Optional<Product> findById = productService.findById(id);
+        if (findById.isEmpty()) {
+            return new ResponseEntity<>("Produto não encontrado", HttpStatus.NOT_FOUND);
+        } else {
+            productService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
 }
