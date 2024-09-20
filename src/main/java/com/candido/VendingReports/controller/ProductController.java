@@ -42,4 +42,14 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody Product product, @PathVariable Long id) {
+        try {
+            Product update = productService.update(product, id);
+            return new ResponseEntity<>(update, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }

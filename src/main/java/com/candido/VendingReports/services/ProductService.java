@@ -15,7 +15,8 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-private final MachineRepository machineRepository;
+    private final MachineRepository machineRepository;
+
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
 
@@ -31,4 +32,12 @@ private final MachineRepository machineRepository;
         return productRepository.save(product);
     }
 
+    public Product update(Product product, Long id) {
+        Product p = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        p.setMachine(product.getMachine());
+        p.setCode(product.getCode());
+        p.setName(product.getName());
+        p.setQuantity(product.getQuantity());
+        return productRepository.save(p);
+    }
 }

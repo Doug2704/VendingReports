@@ -39,11 +39,11 @@ public class MachineService {
         m.setClient(machine.getClient());
         m.setProducts(machine.getProducts());
         m.setTotal(m.getTotal());
-        m.setAudit03(m.getAudit03());
-        m.setAudit08(m.getAudit08());
-        m.setAudit09(m.getAudit09());
+        m.setAudit03(machine.getAudit03());
+        m.setAudit08(machine.getAudit08());
+        m.setAudit09(machine.getAudit09());
 
-        return repository.save(machine);
+        return repository.save(m);
 
     }
 

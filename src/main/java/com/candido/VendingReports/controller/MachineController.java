@@ -1,7 +1,6 @@
 package com.candido.VendingReports.controller;
 
 import com.candido.VendingReports.entities.Machine;
-import com.candido.VendingReports.entities.Product;
 import com.candido.VendingReports.services.MachineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

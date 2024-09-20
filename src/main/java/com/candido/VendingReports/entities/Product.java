@@ -1,6 +1,7 @@
 package com.candido.VendingReports.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +27,9 @@ public class Product {
     @JoinColumn(name = "machine_id")
     @JsonBackReference
     private Machine machine;
+
+    @JsonProperty("machine_id")
+    private Long getMachineId(){
+        return machine.getId();
+    }
 }
