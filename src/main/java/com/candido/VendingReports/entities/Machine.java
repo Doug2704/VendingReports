@@ -1,5 +1,6 @@
 package com.candido.VendingReports.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Machine {
     @Column(nullable = false)
     private String Client;
 
+    // testar com @JsonIgnore futuramente
     @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Product> products;
